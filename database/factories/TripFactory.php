@@ -20,7 +20,8 @@ class TripFactory extends Factory
             'number_of_seats' => rand(1, 30),
             'estimated_time' => rand(1, 9),
             'car_plate' => '12345678',
-            'cost' => rand(50, 100)
+            'cost' => rand(50, 100),
+            'user_id' => rand(1, 30)
         ];
     }
 }
