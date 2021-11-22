@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Governorate;
 use Illuminate\Database\Eloquent\Model;
@@ -23,7 +24,7 @@ class Trip extends Model
 
     public function users() {
 
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class)->withPivot('seat');
     }
 
     public function governorate() {
@@ -34,5 +35,23 @@ class Trip extends Model
     public function driver() {
 
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public static function getActiveTrips() {
+
+        return self::where('starts_at', '>=', Carbon::now)->get();
+    }
+
+    public function occupiedSeats() {
+
+        $occupiedSeats = [];
+
+        $passengers = $this->users()->get();
+
+        foreach($passengers as $passenger) {
+            array_push($occupiedSeats, $passenger->pivot->seat);
+        }
+
+        return $occupiedSeats;
     }
 }
