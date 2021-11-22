@@ -28,5 +28,12 @@ class DatabaseSeeder extends Seeder
                 'date' => Carbon::now()
             ]);
         }
+
+        DB::table('roles')->insert([
+            'name' => 'PASSENGER',
+        ]);
+        DB::table('roles')->insert([
+            'name' => 'DRIVER',
+        ]);
     }
 }
