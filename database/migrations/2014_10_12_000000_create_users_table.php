@@ -21,6 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('phone');
             $table->string('id_photo');
+            $table->unsignedBigInteger('role_id');
             $table->rememberToken();
             $table->timestamps();
         });
