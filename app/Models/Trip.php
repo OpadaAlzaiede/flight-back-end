@@ -22,6 +22,10 @@ class Trip extends Model
         'cost'
     ];
 
+    protected $casts = [
+        'starts_at' => 'datetime'
+    ];
+
     public function users() {
 
         return $this->belongsToMany(User::class)->withPivot('seat');

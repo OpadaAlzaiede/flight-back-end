@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Trip\TripController;
+use App\Http\Controllers\Governorates\GovernorateController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,4 +24,5 @@ Route::post('/login', [AuthController::class, 'login']);
 // protected routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
    Route::resource('/trips', TripController::class);
+   Route::resource('/governorates', GovernorateController::class);
 });

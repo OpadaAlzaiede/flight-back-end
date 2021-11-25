@@ -23,9 +23,9 @@ class TripResource extends JsonResource
             'car_plate' => $this->car_plate,
             'cost' => $this->cost,
             'details' => $this->details,
-            'driver' => $this->whenLoaded('driver'),
-            'governorate' => $this->whenLoaded('governorate'),
-            'passengers' => UserResource::collection($this->whenLoaded('users')),
+            'driver' => $this->driver,
+            'governorate' => $this->governorate,
+            'passengers' => $this->users,
             'occupied_seats' => $this->occupiedSeats()
         ];
     }

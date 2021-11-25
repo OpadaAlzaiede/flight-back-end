@@ -22,7 +22,7 @@ class CreateTripsTable extends Migration
             $table->double('estimated_time');
             $table->string('car_plate');
             $table->double('cost');
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->timestamps();
         });
     }
