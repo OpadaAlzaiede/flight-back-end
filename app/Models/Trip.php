@@ -15,6 +15,7 @@ class Trip extends Model
     protected $fillable = [
         'starts_at',
         'governorate_id',
+        'departure',
         'details',
         'number_of_seats',
         'estimated_time',
@@ -43,7 +44,7 @@ class Trip extends Model
 
     public static function getActiveTrips() {
 
-        return self::where('starts_at', '>=', Carbon::now)->get();
+        return self::where([['starts_at', '>=', Carbon::now], ['status', 0]])->get();
     }
 
     public function getOccupiedSeats() {
@@ -60,6 +61,7 @@ class Trip extends Model
     }
 
     public function cancel() {
+        
         $this->status = 1;
         $this->save();
     }
