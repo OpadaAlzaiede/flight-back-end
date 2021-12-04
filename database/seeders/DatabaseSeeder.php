@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Carbon\Carbon;
 use App\Models\Trip;
 use App\Models\User;
+use App\Models\Comment;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -35,6 +36,7 @@ class DatabaseSeeder extends Seeder
     {
         User::factory()->count(100)->create();
         Trip::factory()->count(100)->create();
+        Comment::factory()->count(100)->create();
         
         for($i = 0; $i < 100; $i++) {
             DB::table('trip_user')->insert([

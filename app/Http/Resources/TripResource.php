@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Http\Resources\UserResource;
+use App\Http\Resources\CommentResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class TripResource extends JsonResource
@@ -29,6 +30,7 @@ class TripResource extends JsonResource
             'driver' => $this->driver,
             'governorate' => $this->governorate,
             'passengers' => $this->users,
+            'comments' => CommentResource::collection($this->comments),
             'occupied_seats' => $this->getOccupiedSeats(),
             'free_seats' => $this->getFreeSeats()
         ];

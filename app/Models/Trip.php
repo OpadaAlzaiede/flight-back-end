@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\Comment;
 use App\Models\Governorate;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -87,5 +88,10 @@ class Trip extends Model
         }
 
         return $freeSeats;
+    }
+
+    public function comments() {
+
+        return $this->hasMany(Comment::class);
     }
 }

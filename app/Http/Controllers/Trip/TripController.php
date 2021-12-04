@@ -127,6 +127,22 @@ class TripController extends Controller
         return $this->success([], 'Activated Successfully');
     }
 
+    public function reserve($id, $seat) {
+
+        $trip = Trip::find($id);
+
+        if(count($trip->users()->where('user_id', Auth::id())->get()))
+            return $this->error(302, "Can't reserve more than one seat !");
+
+        $trip->users()->attach([Auth::id()=>[
+            'seat' => $seat,
+            'date' => Carbon::now(),
+            'is_arrived' => 0
+        ]]);
+
+        return $this->resource($trip);
+    }
+
     private function checkIfAuthorized($id) {
         return
              Auth::id() === Trip::find($id)->user_id &&
