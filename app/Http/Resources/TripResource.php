@@ -28,7 +28,8 @@ class TripResource extends JsonResource
             'driver' => $this->driver,
             'governorate' => $this->governorate,
             'passengers' => $this->users,
-            'occupied_seats' => $this->getOccupiedSeats()
+            'occupied_seats' => $this->getOccupiedSeats(),
+            'free_seats' => $this->getFreeSeats()
         ];
     }
 }

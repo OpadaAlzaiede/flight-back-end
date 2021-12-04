@@ -24,6 +24,7 @@ Route::post('/login', [AuthController::class, 'login']);
 // protected routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
    Route::post('/trips/{id}/cancel', [TripController::class, 'cancel']);
+   Route::post('/trips/{id}/activate', [TripController::class, 'activate']);
    Route::resource('/trips', TripController::class);
    Route::resource('/governorates', GovernorateController::class);
 });

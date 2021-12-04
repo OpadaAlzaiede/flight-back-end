@@ -65,4 +65,26 @@ class Trip extends Model
         $this->status = 1;
         $this->save();
     }
+
+    public function activate() {
+
+        $this->status = 0;
+        $this->save();
+    }
+
+    public function getFreeSeats() {
+
+        $numberOfSeats = $this->number_of_seats;
+        $freeSeats = [];
+        $occupiedSeats = $this->getOccupiedSeats();
+
+        for($i = 1; $i <= $numberOfSeats; $i++) {
+            if(in_array($i, $occupiedSeats))
+                continue;
+
+            array_push($freeSeats, $i);
+        }
+
+        return $freeSeats;
+    }
 }

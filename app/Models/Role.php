@@ -16,6 +16,6 @@ class Role extends Model
 
     public function getRolesArray() {
 
-        return self::Roles;
+        return self::ROLES;
     }
 }
