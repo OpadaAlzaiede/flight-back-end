@@ -46,7 +46,7 @@ class Trip extends Model
         return self::where('starts_at', '>=', Carbon::now)->get();
     }
 
-    public function occupiedSeats() {
+    public function getOccupiedSeats() {
 
         $occupiedSeats = [];
 
@@ -57,5 +57,10 @@ class Trip extends Model
         }
 
         return $occupiedSeats;
+    }
+
+    public function cancel() {
+        $this->status = 1;
+        $this->save();
     }
 }

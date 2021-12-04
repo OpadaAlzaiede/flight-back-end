@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\TripResource;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreTripRequest;
+use App\Http\Requests\UpdateTripRequest;
 
 class TripController extends Controller
 {
@@ -51,9 +52,46 @@ class TripController extends Controller
         $trip = Trip::create($request->all());
 
         $trip->user_id = Auth::id();
+        $trip->status = 0;
         $trip->save();
 
         return $this->resource($trip);
+    }
+
+    public function update(UpdateTripRequest $request, $id) {
+
+        if(!$this->checkIfAuthorized($id))
+            return $this->error(302, 'Unauthorized');
+
+        $trip = Trip::find($id);
+
+        if(!$trip)
+            return $this->error(404, 'Not Found');
+
+        $trip->update($request->all());
+
+        return $this->resource($trip);
+    }
+
+    public function cancel($id) {
+
+        if(!$this->checkIfAuthorized($id))
+            return $this->error(302, 'Unauthorized');
+
+        $trip = Trip::find($id);
+
+        if(!$trip)
+            return $this->error(404, 'Not Found');
+
+        $trip->cancel();
+
+        return $this->success([], 'Canceled Successfully');
+    }
+
+    private function checkIfAuthorized($id) {
+        return
+             Auth::id() === $id &&
+             Auth::user()->role_id = Role::getRolesArray()['DRIVER'];
     }
 
 }

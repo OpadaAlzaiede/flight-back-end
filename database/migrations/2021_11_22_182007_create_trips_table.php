@@ -23,6 +23,7 @@ class CreateTripsTable extends Migration
             $table->string('car_plate');
             $table->double('cost');
             $table->unsignedBigInteger('user_id')->nullable();
+            $table->integer('status')->default(0); // 0 =>  available | 1 => canceled
             $table->timestamps();
         });
     }

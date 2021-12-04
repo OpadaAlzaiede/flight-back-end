@@ -23,10 +23,11 @@ class TripResource extends JsonResource
             'car_plate' => $this->car_plate,
             'cost' => $this->cost,
             'details' => $this->details,
+            'status' => $this->status,
             'driver' => $this->driver,
             'governorate' => $this->governorate,
             'passengers' => $this->users,
-            'occupied_seats' => $this->occupiedSeats()
+            'occupied_seats' => $this->getOccupiedSeats()
         ];
     }
 }

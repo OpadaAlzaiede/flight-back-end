@@ -13,7 +13,7 @@ class UpdateTripRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,11 @@ class UpdateTripRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'starts_at' => 'date',
+            'governorate_id' => 'exists:governorates,id',
+            'details' => 'string',
+            'number_of_seats' => 'gt:5',
+            'cost' => 'numeric',
         ];
     }
 }
