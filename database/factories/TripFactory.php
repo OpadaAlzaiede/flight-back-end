@@ -18,6 +18,7 @@ class TripFactory extends Factory
             'governorate_id' => rand(1, 14),
             'details' => $this->faker->text(100),
             'departure' => $this->faker->text(7),
+            'destination' => $this->faker->text(7),
             'number_of_seats' => rand(1, 30),
             'estimated_time' => rand(1, 9),
             'car_plate' => '12345678',

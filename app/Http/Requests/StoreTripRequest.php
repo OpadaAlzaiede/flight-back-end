@@ -33,6 +33,7 @@ class StoreTripRequest extends FormRequest
             'estimated_time' => 'required',
             'car_plate' => 'required',
             'cost' => 'required|numeric',
+            'destination' => 'required|string'
         ];
     }
 }

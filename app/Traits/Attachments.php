@@ -11,7 +11,7 @@ use Modules\Pledge\Entities\Pledge;
 
 trait Attachments
 {
-    protected $directory = 'uploads';
+    protected $directory = 'avatars';
 
     public function storeAttachment($file, $user)
     {

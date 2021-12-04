@@ -29,6 +29,7 @@ class UpdateTripRequest extends FormRequest
             'details' => 'string',
             'number_of_seats' => 'gt:5',
             'cost' => 'numeric',
+            'destination' => 'string'
         ];
     }
 }

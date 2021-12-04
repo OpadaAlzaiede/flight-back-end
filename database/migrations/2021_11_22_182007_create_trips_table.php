@@ -18,6 +18,7 @@ class CreateTripsTable extends Migration
             $table->datetime('starts_at');
             $table->unsignedBigInteger('governorate_id');
             $table->string('departure');
+            $table->string('destination');
             $table->text('details');
             $table->integer('number_of_seats');
             $table->double('estimated_time');

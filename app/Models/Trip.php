@@ -16,6 +16,7 @@ class Trip extends Model
         'starts_at',
         'governorate_id',
         'departure',
+        'destination',
         'details',
         'number_of_seats',
         'estimated_time',
