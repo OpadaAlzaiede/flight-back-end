@@ -34,6 +34,8 @@ class TripController extends Controller
 
         $trips = Trip::with('users', 'driver', 'governorate')
                     ->where('details', 'like', '%'. $this->keyword .'%')
+                    ->orWhere('departure', 'like', '%'. $this->keyword .'%')
+                    ->orWhere('starts_at', 'like', '%'. $this->keyword .'%')
                     ->paginate($this->perPage, ['*'], 'page', $this->page);
 
         return $this->collection($trips);

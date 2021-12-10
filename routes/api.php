@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Trip\TripController;
+use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Governorates\GovernorateController;
 
 /*
@@ -23,6 +24,7 @@ Route::post('/login', [AuthController::class, 'login']);
 
 // protected routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
+   Route::post('user/changePassword', [UserController::class, 'changePassword']);
    Route::post('/trips/{id}/cancel', [TripController::class, 'cancel']);
    Route::post('/trips/{id}/activate', [TripController::class, 'activate']);
    Route::post('/trips/{id}/reserve/{seat}', [TripController::class, 'reserve']);
