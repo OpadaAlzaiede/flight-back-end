@@ -140,7 +140,16 @@ class TripController extends Controller
 
     public function reserve(Request $request, $id) {
 
+        if(Auth::user()->trips()->count() > 0)
+            return $this->error(300, 'Already in a trip !');
+
         $trip = Trip::find($id);
+
+        if(!$trip)
+            return $this->error(404, 'Not Found !');
+
+        if($trip->status == 1)
+            return $this->error(300, 'Trip is canceled !');
 
         if(is_array($request->seat)) {
             foreach($request->seat as $se) {
@@ -173,6 +182,20 @@ class TripController extends Controller
         return $this->resource($trip);
     }
 
+    public function unReserveSeat($id, $seat) {
+
+        $trip = Trip::find($id);
+
+        if(!$trip)
+            return $this->error(404, 'Not Found !');
+
+        $user = $trip->users()->where('user_id', Auth::id())->first();
+
+        $user->pivot->where('seat', $seat)->delete();
+
+        return $this->success([], 'seat unreserved !');
+    }
+
     public function checkAsArrived($id) {
 
         $trip = Trip::find($id);
@@ -185,6 +208,7 @@ class TripController extends Controller
     }
 
     private function checkIfAuthorized($id) {
+
         return
              Auth::id() === Trip::find($id)->user_id &&
              Auth::user()->role_id = Role::getRolesArray()['DRIVER'];

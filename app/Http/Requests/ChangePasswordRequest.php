@@ -27,7 +27,7 @@ class ChangePasswordRequest extends FormRequest
     {
         return [
             'old_password' => 'required|confirmed',
-            'new_password' => 'required'
+            'new_password' => 'required|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/'
         ];
     }
 }

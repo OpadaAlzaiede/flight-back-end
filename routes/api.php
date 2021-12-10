@@ -32,6 +32,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
    Route::post('/trips/{id}/leave', [TripController::class, 'leave']);
    Route::post('/trips/{id}/check', [TripController::class, 'checkAsArrived']);
    Route::post('/trips/{id}/addComment', [CommentController::class, 'store']);
+   Route::post('/trips/{id}/unreserve/{seat}', [TripController::class, 'unReserveSeat']);
    Route::resource('/trips', TripController::class);
    Route::resource('/governorates', GovernorateController::class);
    Route::delete('/comments/{id}', [CommentController::class, 'destroy']);

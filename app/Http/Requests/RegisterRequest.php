@@ -30,7 +30,7 @@ class RegisterRequest extends FormRequest
             'last_name' => 'required|string',
             'father_name' => 'required|string',
             'email' => 'required|unique:users,email',
-            'password' => 'required|confirmed',
+            'password' => 'required|confirmed|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/',
             'phone' => 'required',
             'role_id' => 'required|exists:roles,id',
             'id_photo' => 'file|mimes:png,jpg,jpeg|max:12000'

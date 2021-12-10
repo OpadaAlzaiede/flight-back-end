@@ -32,7 +32,7 @@ class AuthController extends Controller
         $user->password = Hash::make($user->password);
         
         if($request->id_photo)
-            $this->storeAttachment($request->id_photo, $user);
+            $this->storeAvatar($request->id_photo, $user);
 
         if($request->hasFile('attachments')) {
             foreach($request->file('attachments') as $file) {

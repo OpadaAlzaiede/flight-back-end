@@ -2,7 +2,9 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Role;
 use App\Http\Resources\TripResource;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\AttachmentResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -25,8 +27,9 @@ class UserResource extends JsonResource
             'phone' => $this->phone,
             'photo' => 'storage/'. $this->id_photo,
             'role' => $this->role,
-            'trips' => TripResource::collection($this->trips),
-            'trips_as_driver' => TripResource::collection($this->tripsAsDriver),
+            'trips' => $this->role_id === Role::getRolesArray()['PASSENGER']
+                            ? TripResource::collection($this->trips)
+                            : TripResource::collection($this->tripsAsDriver),
             'attachmants' => AttachmentResource::collection($this->attachments)
         ];
     }
