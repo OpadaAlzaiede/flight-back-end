@@ -31,7 +31,7 @@ class Trip extends Model
 
     public function users() {
 
-        return $this->belongsToMany(User::class)->withPivot('seat');
+        return $this->belongsToMany(User::class)->withPivot('seat', 'is_arrived');
     }
 
     public function governorate() {

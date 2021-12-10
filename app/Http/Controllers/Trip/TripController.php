@@ -157,6 +157,17 @@ class TripController extends Controller
         return $this->resource($trip);
     }
 
+    public function checkAsArrived($id) {
+
+        $trip = Trip::find($id);
+        $user = $trip->users()->where('user_id', Auth::id())->first();
+
+        $user->pivot->is_arrived = 1;
+        $user->pivot->save();
+        
+        return $this->success([], 'Checked successfully!');
+    }
+
     private function checkIfAuthorized($id) {
         return
              Auth::id() === Trip::find($id)->user_id &&
