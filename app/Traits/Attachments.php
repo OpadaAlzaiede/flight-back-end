@@ -27,6 +27,7 @@ trait Attachments
             $attachment->attachable_type = $attachable_type;
             $attachment->attachable_id = $attachable_id;
             $attachment->date = Carbon::now();
+            $attachment->user_id = $user_id;
             $attachment->save();
             return true;
         } catch (\Exception $ex) {

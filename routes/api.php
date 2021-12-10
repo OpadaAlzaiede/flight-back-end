@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Trip\TripController;
 use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\Comment\CommentController;
 use App\Http\Controllers\Governorates\GovernorateController;
 
 /*
@@ -30,6 +31,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
    Route::post('/trips/{id}/reserve', [TripController::class, 'reserve']);
    Route::post('/trips/{id}/leave', [TripController::class, 'leave']);
    Route::post('/trips/{id}/check', [TripController::class, 'checkAsArrived']);
+   Route::post('/trips/{id}/addComment', [CommentController::class, 'store']);
    Route::resource('/trips', TripController::class);
    Route::resource('/governorates', GovernorateController::class);
 });
