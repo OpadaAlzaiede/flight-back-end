@@ -145,6 +145,18 @@ class TripController extends Controller
         return $this->resource($trip);
     }
 
+    public function leave($id) {
+
+        $trip = Trip::find($id);
+
+        if(Carbon::now() > $trip->starts_at)
+            return $this->success([], "Can't leave trip");
+
+        $trip->users()->detach(Auth::id());
+
+        return $this->resource($trip);
+    }
+
     private function checkIfAuthorized($id) {
         return
              Auth::id() === Trip::find($id)->user_id &&
