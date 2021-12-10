@@ -25,7 +25,11 @@ Route::post('/login', [AuthController::class, 'login']);
 
 // protected routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
+
+   // User Endpoints
    Route::post('user/changePassword', [UserController::class, 'changePassword']);
+
+   // Trip Endpoints
    Route::post('/trips/{id}/cancel', [TripController::class, 'cancel']);
    Route::post('/trips/{id}/activate', [TripController::class, 'activate']);
    Route::post('/trips/{id}/reserve', [TripController::class, 'reserve']);
@@ -34,7 +38,11 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
    Route::post('/trips/{id}/addComment', [CommentController::class, 'store']);
    Route::post('/trips/{id}/unreserve/{seat}', [TripController::class, 'unReserveSeat']);
    Route::resource('/trips', TripController::class);
+
+   // Governorates Endpoints
    Route::resource('/governorates', GovernorateController::class);
+
+   // Comments Endpoints
    Route::delete('/comments/{id}', [CommentController::class, 'destroy']);
    Route::put('/comments/{id}', [CommentController::class, 'update']);
 });

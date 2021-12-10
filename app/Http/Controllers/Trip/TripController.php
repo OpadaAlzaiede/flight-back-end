@@ -89,7 +89,7 @@ class TripController extends Controller
         return $this->resource($trip);
     }
 
-    public function delete($id) {
+    public function destroy($id) {
 
         if(!$this->checkIfAuthorized($id))
             return $this->error(302, 'Unauthorized');
@@ -105,6 +105,7 @@ class TripController extends Controller
 
     }
 
+    // cancel trip
     public function cancel($id) {
 
         if(!$this->checkIfAuthorized($id))
@@ -123,6 +124,7 @@ class TripController extends Controller
         return $this->success([], 'Canceled Successfully');
     }
 
+    // reactivate trip
     public function activate($id) {
 
         if(!$this->checkIfAuthorized($id))
@@ -138,6 +140,7 @@ class TripController extends Controller
         return $this->success([], 'Activated Successfully');
     }
 
+    // reserve in a trip
     public function reserve(Request $request, $id) {
 
         if(Auth::user()->trips()->count() > 0)
@@ -170,6 +173,7 @@ class TripController extends Controller
         return $this->resource($trip);
     }
 
+    // leave trip
     public function leave($id) {
 
         $trip = Trip::find($id);
@@ -182,12 +186,16 @@ class TripController extends Controller
         return $this->resource($trip);
     }
 
+    // unreserve a seat
     public function unReserveSeat($id, $seat) {
 
         $trip = Trip::find($id);
 
         if(!$trip)
             return $this->error(404, 'Not Found !');
+
+        if(Carbon::now() > $trip->starts_at)
+            return $this->success([], "Can't leave trip");
 
         $user = $trip->users()->where('user_id', Auth::id())->first();
 
@@ -196,6 +204,7 @@ class TripController extends Controller
         return $this->success([], 'seat unreserved !');
     }
 
+    // check as arrived
     public function checkAsArrived($id) {
 
         $trip = Trip::find($id);

@@ -55,19 +55,6 @@ class Trip extends Model
         return self::where([['starts_at', '>=', Carbon::now], ['status', 0]])->get();
     }
 
-    public function getOccupiedSeats() {
-
-        $occupiedSeats = [];
-
-        $passengers = $this->users()->get();
-
-        foreach($passengers as $passenger) {
-            array_push($occupiedSeats, $passenger->pivot->seat);
-        }
-
-        return $occupiedSeats;
-    }
-
     public function cancel() {
         
         $this->status = 1;
@@ -78,6 +65,11 @@ class Trip extends Model
 
         $this->status = 0;
         $this->save();
+    }
+
+    public function comments() {
+
+        return $this->hasMany(Comment::class);
     }
 
     public function getFreeSeats() {
@@ -96,8 +88,16 @@ class Trip extends Model
         return $freeSeats;
     }
 
-    public function comments() {
+    public function getOccupiedSeats() {
 
-        return $this->hasMany(Comment::class);
+        $occupiedSeats = [];
+
+        $passengers = $this->users()->get();
+
+        foreach($passengers as $passenger) {
+            array_push($occupiedSeats, $passenger->pivot->seat);
+        }
+
+        return $occupiedSeats;
     }
 }
