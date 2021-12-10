@@ -27,7 +27,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
    Route::post('user/changePassword', [UserController::class, 'changePassword']);
    Route::post('/trips/{id}/cancel', [TripController::class, 'cancel']);
    Route::post('/trips/{id}/activate', [TripController::class, 'activate']);
-   Route::post('/trips/{id}/reserve/{seat}', [TripController::class, 'reserve']);
+   Route::post('/trips/{id}/reserve', [TripController::class, 'reserve']);
    Route::post('/trips/{id}/leave', [TripController::class, 'leave']);
    Route::post('/trips/{id}/check', [TripController::class, 'checkAsArrived']);
    Route::resource('/trips', TripController::class);

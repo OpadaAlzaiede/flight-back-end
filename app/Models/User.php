@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Role;
 use App\Models\Trip;
+use App\Models\Attachment;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -56,7 +57,17 @@ class User extends Authenticatable
 
     public function trips() {
 
-        return $this->belongsToMany(Trip::class);
+        return $this->belongsToMany(Trip::class)->withPivot('seat', 'is_arrived');
+    }
+
+    public function tripsAsDriver() {
+
+        return $this->hasMany(Trip::class);
+    }
+
+    public function attachments() {
+
+        return $this->morphMany(Attachment::class, 'attachable');
     }
 
     public function isPassenger() {

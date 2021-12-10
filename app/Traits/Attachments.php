@@ -4,25 +4,30 @@
 namespace App\Traits;
 
 
-use App\Models\Attachment;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Storage;
+use App\Models\Attachment;
 use Modules\Pledge\Entities\Pledge;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 trait Attachments
 {
-    protected $directory = 'avatars';
 
-    public function storeAttachment($file, $user)
-    {
+    public function storeAttachment($file, $attachable_id, $attachable_type, $user_id = null) {
+
+        $split_directory = explode('\\', $attachable_type);
+        $directory = $split_directory[count($split_directory)-1];
+        
         try {
             $path = Storage::disk('public')->putFileAs(
-                $this->directory, $file, time().'_'.$file->getClientOriginalName()
+                $directory, $file, time() . ' '. $file->getClientOriginalName()
             );
-          
-            $user->id_photo = $path;
-            $user->save();
-
+            $attachment = new Attachment();
+            $attachment->url = $path;
+            $attachment->attachable_type = $attachable_type;
+            $attachment->attachable_id = $attachable_id;
+            $attachment->date = Carbon::now();
+            $attachment->save();
             return true;
         } catch (\Exception $ex) {
             return false;

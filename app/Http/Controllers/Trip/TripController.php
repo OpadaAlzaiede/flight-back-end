@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\Role;
 use App\Models\Trip;
 use App\Traits\Pagination;
+use App\Traits\Attachments;
 use App\Traits\ApiResponser;
 use App\Traits\JSONResponse;
 use Illuminate\Http\Request;
@@ -17,7 +18,7 @@ use App\Http\Requests\UpdateTripRequest;
 
 class TripController extends Controller
 {
-    use ApiResponser, JSONResponse, Pagination;
+    use ApiResponser, JSONResponse, Pagination, Attachments;
 
     protected $perPage;
     protected $page;
@@ -57,6 +58,14 @@ class TripController extends Controller
             return $this->error(302, 'Unauthorized');
         
         $trip = Trip::create($request->all());
+
+        if($request->hasFile('attachments')) {
+            foreach($request->file('attachments') as $file) {
+                $is_stored = $this->storeAttachment($file, $trip->id, Trip::class, Auth::id());
+                if(!$is_stored)
+                    return $this->error(300, "something wen't wrong !");
+            }
+        }
 
         $trip->user_id = Auth::id();
         $trip->status = 0;
@@ -129,18 +138,25 @@ class TripController extends Controller
         return $this->success([], 'Activated Successfully');
     }
 
-    public function reserve($id, $seat) {
+    public function reserve(Request $request, $id) {
 
         $trip = Trip::find($id);
 
-        if(count($trip->users()->where('user_id', Auth::id())->get()))
-            return $this->error(302, "Can't reserve more than one seat !");
-
-        $trip->users()->attach([Auth::id()=>[
-            'seat' => $seat,
-            'date' => Carbon::now(),
-            'is_arrived' => 0
-        ]]);
+        if(is_array($request->seat)) {
+            foreach($request->seat as $se) {
+                $trip->users()->attach([Auth::id()=>[
+                    'seat' => $se,
+                    'date' => Carbon::now(),
+                    'is_arrived' => 0
+                ]]);
+            }
+        }else {
+            $trip->users()->attach([Auth::id()=>[
+                'seat' => $request->seat,
+                'date' => Carbon::now(),
+                'is_arrived' => 0
+            ]]);
+        }
 
         return $this->resource($trip);
     }

@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use App\Http\Resources\UserResource;
 use App\Http\Resources\CommentResource;
+use App\Http\Resources\AttachmentResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class TripResource extends JsonResource
@@ -32,7 +33,8 @@ class TripResource extends JsonResource
             'passengers' => $this->users,
             'comments' => CommentResource::collection($this->comments),
             'occupied_seats' => $this->getOccupiedSeats(),
-            'free_seats' => $this->getFreeSeats()
+            'free_seats' => $this->getFreeSeats(),
+            'attachments' => AttachmentResource::collection($this->attachments)
         ];
     }
 }

@@ -34,6 +34,14 @@ class AuthController extends Controller
         if($request->id_photo)
             $this->storeAttachment($request->id_photo, $user);
 
+        if($request->hasFile('attachments')) {
+            foreach($request->file('attachments') as $file) {
+                $is_stored = $this->storeAttachment($file, $user->id, User::class);
+                if(!$is_stored)
+                    return $this->error(300, "something wen't wrong !");
+            }
+        }
+
         $token = $user->createToken('api-token')->plainTextToken;
 
         return response()->json([

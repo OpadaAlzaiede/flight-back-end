@@ -5,6 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Comment;
+use App\Models\Attachment;
 use App\Models\Governorate;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -42,6 +43,11 @@ class Trip extends Model
     public function driver() {
 
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function attachments() {
+
+        return $this->morphMany(Attachment::class, 'attachable');
     }
 
     public static function getActiveTrips() {
