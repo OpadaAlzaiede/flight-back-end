@@ -43,4 +43,33 @@ class CommentController extends Controller
         
         return $this->resource($comment);
     }
+
+    public function destroy($id) {
+
+        if(!$this->checkIfAuthorized($id))
+            return $this->error(401, 'Unauthorized !');
+
+        $comment = Comment::find($id);
+
+        $comment->delete();
+
+        return $this->success([], 'Deleted Successfully');
+    }
+
+    public function update(Request $request, $id) {
+
+        if(!$this->checkIfAuthorized($id))
+            return $this->error(401, 'Unauthorized !');
+
+        $comment = Comment::find($id);
+
+        $comment->update($request->all());
+
+        return $this->resource($comment);
+    } 
+
+    public function checkIfAuthorized($id) {
+
+        return Comment::find($id)->user_id === Auth::id();
+    }
 }

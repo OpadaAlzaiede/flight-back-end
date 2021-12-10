@@ -34,4 +34,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
    Route::post('/trips/{id}/addComment', [CommentController::class, 'store']);
    Route::resource('/trips', TripController::class);
    Route::resource('/governorates', GovernorateController::class);
+   Route::delete('/comments/{id}', [CommentController::class, 'destroy']);
+   Route::put('/comments/{id}', [CommentController::class, 'update']);
 });
