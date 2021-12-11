@@ -34,9 +34,13 @@ class TripController extends Controller
     public function index() {
 
         $trips = Trip::with('users', 'driver', 'governorate')
-                    ->where('details', 'like', '%'. $this->keyword .'%')
-                    ->orWhere('departure', 'like', '%'. $this->keyword .'%')
-                    ->orWhere('starts_at', 'like', '%'. $this->keyword .'%')
+                    ->where('starts_at', '>=', Carbon::now())
+                    ->where('status', 0)
+                    ->where(function($query) {
+                        $query->where('details', 'like', '%'. $this->keyword .'%')
+                        ->orWhere('departure', 'like', '%'. $this->keyword .'%')
+                        ->orWhere('starts_at', 'like', '%'. $this->keyword .'%');
+                    })
                     ->paginate($this->perPage, ['*'], 'page', $this->page);
 
         return $this->collection($trips);
@@ -96,9 +100,16 @@ class TripController extends Controller
 
         $trip = Trip::find($id);
 
+        if(Carbon::now() > $trip->starts_at)
+            return $this->success([], "Can't Delete trip");
+
         if(!$trip)
             return $this->error(404, 'Not Found');
 
+        foreach($trip->users()->get() as $user) {
+            $user->pivot->delete();
+        }
+        
         $trip->delete();
 
         return $this->success([], 'Deleted Successfully');
