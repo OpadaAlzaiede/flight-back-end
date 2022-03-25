@@ -128,6 +128,7 @@ class TripController extends Controller
             return $this->success([], "Can't cancel trip");
 
         $trip->cancel();
+        $trip->users()->delete();
 
         return $this->success([], 'Canceled Successfully');
     }

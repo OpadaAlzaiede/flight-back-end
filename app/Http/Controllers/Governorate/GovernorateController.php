@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Governorates;
+namespace App\Http\Controllers\Governorate;
 
 use App\Traits\Pagination;
 use App\Models\Governorate;
@@ -34,15 +34,5 @@ class GovernorateController extends Controller
                                     ->paginate($this->perPage, ['*'], 'page', $this->page);
 
         return $this->collection($governorates);
-    }
-
-    public function show($id) {
-
-        $governorate = Governorate::find($id);
-
-        if(!$governorate)
-            return $this->error(404, 'Not Found !');
-        
-        return $this->resource($governorate);
     }
 }

@@ -25,6 +25,7 @@ class UpdateTripRequest extends FormRequest
     {
         return [
             'starts_at' => 'date',
+            'arrives_at' => 'date',
             'governorate_id' => 'exists:governorates,id',
             'details' => 'string',
             'number_of_seats' => 'gt:3',

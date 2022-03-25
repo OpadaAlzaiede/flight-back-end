@@ -7,7 +7,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Trip\TripController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Comment\CommentController;
-use App\Http\Controllers\Governorates\GovernorateController;
+use App\Http\Controllers\Governorate\GovernorateController;
 use App\Http\Controllers\Role\RoleController;
 
 /*
@@ -28,6 +28,8 @@ Route::post('/login', [AuthController::class, 'login']);
 // protected routes
 Route::group(['middleware' => ['auth:sanctum', 'isApproved']], function () {
 
+   Route::get('/profile', [UserController::class, 'profile']);
+
    // User routes
    Route::post('user/changePassword', [UserController::class, 'changePassword']);
 
@@ -45,7 +47,7 @@ Route::group(['middleware' => ['auth:sanctum', 'isApproved']], function () {
    Route::resource('/trips', TripController::class);
    
    // Governorates routes
-   Route::resource('/governorates', GovernorateController::class);
+   Route::resource('/governorates', GovernorateController::class)->only(['index']);
 
    // Comments routes
    Route::delete('/comments/{id}', [CommentController::class, 'destroy']);

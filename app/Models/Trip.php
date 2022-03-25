@@ -16,6 +16,7 @@ class Trip extends Model
 
     protected $fillable = [
         'starts_at',
+        'arrives_at',
         'governorate_id',
         'departure',
         'destination',
@@ -52,7 +53,7 @@ class Trip extends Model
 
     public static function getActiveTrips() {
 
-        return self::where([['starts_at', '>=', Carbon::now], ['status', 0]])->get();
+        return self::where([['starts_at', '>=', Carbon::now()], ['status', 0]])->get();
     }
 
     public function cancel() {
@@ -109,5 +110,10 @@ class Trip extends Model
     public function isFree($seat) {
 
         return in_array($seat, $this->getFreeSeats());
+    }
+
+    public static function getArrivedTrips() {
+
+        return self::where('arrives_at', '>=', Carbon::now())->get();
     }
 }

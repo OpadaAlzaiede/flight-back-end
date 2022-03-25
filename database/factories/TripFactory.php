@@ -15,6 +15,7 @@ class TripFactory extends Factory
     {
         return [
             'starts_at' => $this->faker->datetime(),
+            'arrives_at' => $this->faker->datetime(),
             'governorate_id' => rand(1, 14),
             'details' => $this->faker->text(100),
             'departure' => $this->faker->text(7),

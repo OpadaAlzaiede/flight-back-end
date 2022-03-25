@@ -27,6 +27,7 @@ class StoreTripRequest extends FormRequest
     {
         return [
             'starts_at' => 'required|date',
+            'arrives_at' => 'required|date',
             'governorate_id' => 'required|exists:governorates,id',
             'details' => 'required|string',
             'number_of_seats' => 'required|gt:3',
