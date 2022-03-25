@@ -36,7 +36,7 @@ class AdminController extends Controller
         $user = User::find($id);
 
         if(!$user)
-            return $this->error(404, ' Not Found !');
+            return $this->error(404, 'Not Found !');
         
         $user->update($request->all());
 
@@ -46,14 +46,16 @@ class AdminController extends Controller
     public function approveUser($id) {
 
         $user = User::find($id);
-
         $user->approve();
+
+        return new UserResource($user);
     }
 
     public function disApproveUser($id) {
 
         $user = User::find($id);
-
         $user->disApprove();
+
+        return new UserResource($user);
     } 
 }

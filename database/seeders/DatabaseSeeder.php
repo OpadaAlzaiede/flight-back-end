@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\Trip;
 use App\Models\User;
 use App\Models\Comment;
+use App\Models\Role;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -33,28 +34,22 @@ class DatabaseSeeder extends Seeder
      * @return void
      */
     public function run()
-    {
-        User::factory()->count(100)->create();
-        Trip::factory()->count(100)->create();
-        Comment::factory()->count(100)->create();
-        
-        for($i = 0; $i < 100; $i++) {
-            DB::table('trip_user')->insert([
-                'user_id' => rand(1, 100),
-                'trip_id' => rand(1, 100),
-                'seat' => rand(1, 30),
-                'date' => Carbon::now()
-            ]);
-        }
-
-        DB::table('roles')->insert([
-            'name' => 'PASSENGER',
+    {        
+        $passengerRole = Role::create(['name' => 'PASSENGER']);
+        $driverRole = Role::create(['name' => 'DRIVER']);
+        $adminRole = Role::create(['name' => 'ADMIN']);
+       
+        User::factory()->create([
+            'email' => 'driver@example.com',
+            'role_id' => $driverRole->id
         ]);
-        DB::table('roles')->insert([
-            'name' => 'DRIVER',
+        User::factory()->create([
+            'email' => 'passenger@example.com',
+            'role_id' => $passengerRole->id
         ]);
-        DB::table('roles')->insert([
-            'name' => 'ADMIN',
+        User::factory()->create([
+            'email' => 'admin@example.com',
+            'role_id' => $adminRole->id
         ]);
 
         for($i = 1; $i <= count(self::Governorates); $i++) {

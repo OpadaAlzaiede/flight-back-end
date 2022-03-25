@@ -29,7 +29,7 @@ class StoreTripRequest extends FormRequest
             'starts_at' => 'required|date',
             'governorate_id' => 'required|exists:governorates,id',
             'details' => 'required|string',
-            'number_of_seats' => 'required|gt:5',
+            'number_of_seats' => 'required|gt:3',
             'estimated_time' => 'required',
             'car_plate' => 'required',
             'cost' => 'required|numeric',

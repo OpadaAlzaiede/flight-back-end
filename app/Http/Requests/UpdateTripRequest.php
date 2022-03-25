@@ -27,7 +27,7 @@ class UpdateTripRequest extends FormRequest
             'starts_at' => 'date',
             'governorate_id' => 'exists:governorates,id',
             'details' => 'string',
-            'number_of_seats' => 'gt:5',
+            'number_of_seats' => 'gt:3',
             'cost' => 'numeric',
             'destination' => 'string'
         ];

@@ -72,6 +72,11 @@ class Trip extends Model
         return $this->hasMany(Comment::class);
     }
 
+    public function isCanceled() {
+
+        return $this->status === 1;
+    }
+
     public function getFreeSeats() {
 
         $numberOfSeats = $this->number_of_seats;
@@ -99,5 +104,10 @@ class Trip extends Model
         }
 
         return $occupiedSeats;
+    }
+
+    public function isFree($seat) {
+
+        return in_array($seat, $this->getFreeSeats());
     }
 }

@@ -8,6 +8,7 @@ use App\Http\Controllers\Trip\TripController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\Comment\CommentController;
 use App\Http\Controllers\Governorates\GovernorateController;
+use App\Http\Controllers\Role\RoleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +30,9 @@ Route::group(['middleware' => ['auth:sanctum', 'isApproved']], function () {
 
    // User routes
    Route::post('user/changePassword', [UserController::class, 'changePassword']);
+
+   // Role routes
+   Route::resource('/roles', RoleController::class)->only(['index']);
 
    // Trip routes
    Route::post('/trips/{id}/cancel', [TripController::class, 'cancel']);

@@ -151,19 +151,21 @@ class TripController extends Controller
     // reserve in a trip
     public function reserve(Request $request, $id) {
 
-        if(Auth::user()->trips()->count() > 0)
+        if(Auth::user()->trips()->where('trip_id', '!=', $id)->count() > 0)
             return $this->error(300, 'Already in a trip !');
 
         $trip = Trip::find($id);
 
-        if(!$trip)
+        if(!$trip || $trip->starts_at < Carbon::now())
             return $this->error(404, 'Not Found !');
 
-        if($trip->status == 1)
+        if($trip->isCanceled())
             return $this->error(300, 'Trip is canceled !');
 
         if(is_array($request->seat)) {
             foreach($request->seat as $se) {
+                if(!$trip->isFree($se))
+                    continue;
                 $trip->users()->attach([Auth::id()=>[
                     'seat' => $se,
                     'date' => Carbon::now(),
@@ -171,11 +173,12 @@ class TripController extends Controller
                 ]]);
             }
         }else {
-            $trip->users()->attach([Auth::id()=>[
-                'seat' => $request->seat,
-                'date' => Carbon::now(),
-                'is_arrived' => 0
-            ]]);
+            if($trip->isFree($$request->seat))  
+                $trip->users()->attach([Auth::id()=>[
+                    'seat' => $request->seat,
+                    'date' => Carbon::now(),
+                    'is_arrived' => 0
+                ]]);
         }
 
         return $this->resource($trip);
