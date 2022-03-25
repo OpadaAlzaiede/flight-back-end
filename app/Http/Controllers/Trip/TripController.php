@@ -15,6 +15,7 @@ use App\Http\Resources\TripResource;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreTripRequest;
 use App\Http\Requests\UpdateTripRequest;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class TripController extends Controller
 {
@@ -33,16 +34,12 @@ class TripController extends Controller
 
     public function index() {
 
-        $trips = Trip::with('users', 'driver', 'governorate')
-                    ->where('starts_at', '>=', Carbon::now())
-                    ->where('status', 0)
-                    ->where(function($query) {
-                        $query->where('details', 'like', '%'. $this->keyword .'%')
-                        ->orWhere('departure', 'like', '%'. $this->keyword .'%')
-                        ->orWhere('starts_at', 'like', '%'. $this->keyword .'%');
-                    })
-                    ->paginate($this->perPage, ['*'], 'page', $this->page);
-
+        $trips = QueryBuilder::for(Trip::class)
+                            ->allowedIncludes(['users', 'driver', 'governorate'])
+                            ->allowedFilters(['id', 'status', 'details', 'departure', 'starts_at', 'governorate.name'])
+                            ->defaultSort(['-id'])
+                            ->paginate($this->perPage, ['*'], 'page', $this->page);
+       
         return $this->collection($trips);
     }
 
@@ -59,7 +56,7 @@ class TripController extends Controller
     public function store(StoreTripRequest $request) {
 
         if(!Auth::user()->isDriver())
-            return $this->error(302, 'Unauthorized');
+            return $this->error(401, 'Unauthorized');
         
         $trip = Trip::create($request->all());
 

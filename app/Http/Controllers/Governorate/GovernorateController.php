@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers\Governorates;
 
+use App\Traits\Pagination;
 use App\Models\Governorate;
+use App\Traits\ApiResponser;
+use App\Traits\JSONResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Spatie\QueryBuilder\QueryBuilder;
 use App\Http\Resources\GovernorateResource;
 
 class GovernorateController extends Controller
@@ -24,7 +28,9 @@ class GovernorateController extends Controller
 
     public function index() {
 
-        $governorates = Governorate::where('name', 'like', '%'. $this->keyword .'%')
+        $governorates = QueryBuilder::for(Governorate::class)
+                                    ->allowedFilters(['name'])
+                                    ->defaultSort(['id'])
                                     ->paginate($this->perPage, ['*'], 'page', $this->page);
 
         return $this->collection($governorates);
