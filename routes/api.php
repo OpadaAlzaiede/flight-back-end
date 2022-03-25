@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
@@ -24,12 +25,12 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
 // protected routes
-Route::group(['middleware' => ['auth:sanctum']], function () {
+Route::group(['middleware' => ['auth:sanctum', 'isApproved']], function () {
 
-   // User Endpoints
+   // User routes
    Route::post('user/changePassword', [UserController::class, 'changePassword']);
 
-   // Trip Endpoints
+   // Trip routes
    Route::post('/trips/{id}/cancel', [TripController::class, 'cancel']);
    Route::post('/trips/{id}/activate', [TripController::class, 'activate']);
    Route::post('/trips/{id}/reserve', [TripController::class, 'reserve']);
@@ -38,11 +39,22 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
    Route::post('/trips/{id}/addComment', [CommentController::class, 'store']);
    Route::post('/trips/{id}/unreserve/{seat}', [TripController::class, 'unReserveSeat']);
    Route::resource('/trips', TripController::class);
-
-   // Governorates Endpoints
+   
+   // Governorates routes
    Route::resource('/governorates', GovernorateController::class);
 
-   // Comments Endpoints
+   // Comments routes
    Route::delete('/comments/{id}', [CommentController::class, 'destroy']);
    Route::put('/comments/{id}', [CommentController::class, 'update']);
+
+   // admin routes
+   Route::prefix('admin')->group(function () {
+      Route::group(['middleware' => 'isAdmin'], function() {
+         Route::post('reset-user-data/{id}', [AdminController::class, 'resetUserData']);
+         Route::post('approve-user/{id}', [AdminController::class, 'approveUser']);
+         Route::post('disapprove-user/{id}', [AdminController::class, 'disApproveUser']);
+         Route::get('/users', [AdminController::class, 'getAllUsers']);
+      });
+   });
+
 });

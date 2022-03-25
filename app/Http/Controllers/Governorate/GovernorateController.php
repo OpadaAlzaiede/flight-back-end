@@ -30,7 +30,7 @@ class GovernorateController extends Controller
 
         $governorates = QueryBuilder::for(Governorate::class)
                                     ->allowedFilters(['name'])
-                                    ->defaultSort(['id'])
+                                    ->defaultSort('id')
                                     ->paginate($this->perPage, ['*'], 'page', $this->page);
 
         return $this->collection($governorates);

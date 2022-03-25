@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Models\Role;
 use App\Models\User;
 use App\Traits\Pagination;
 use App\Traits\Attachments;
@@ -26,9 +27,10 @@ class AuthController extends Controller
     
     public function register(RegisterRequest $request) {
 
-
         $user = User::create($request->all());
-
+        if($user->role_id = Role::getRolesArray()['DRIVER'])
+            $user->disapprove();
+            
         $user->password = Hash::make($user->password);
         
         if($request->id_photo)

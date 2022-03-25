@@ -37,7 +37,7 @@ class TripController extends Controller
         $trips = QueryBuilder::for(Trip::class)
                             ->allowedIncludes(['users', 'driver', 'governorate'])
                             ->allowedFilters(['id', 'status', 'details', 'departure', 'starts_at', 'governorate.name'])
-                            ->defaultSort(['-id'])
+                            ->defaultSort('-id')
                             ->paginate($this->perPage, ['*'], 'page', $this->page);
        
         return $this->collection($trips);

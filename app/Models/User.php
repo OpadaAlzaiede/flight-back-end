@@ -79,4 +79,26 @@ class User extends Authenticatable
 
         return $this->role_id === Role::getRolesArray()['DRIVER'];
     }
+
+    public function isAdmin() {
+
+        return $this->role_id === Role::getRolesArray()['ADMIN'];
+    }
+
+    public function isApproved() {
+
+        return $this->is_approved === 1;
+    }
+
+    public function approve() {
+
+        $this->is_approved = 1;
+        $this->save();
+    }
+
+    public function disApprove() {
+
+        $this->is_approved = 0;
+        $this->save();
+    }
 }

@@ -24,6 +24,7 @@ class CreateUsersTable extends Migration
             $table->string('phone');
             $table->string('id_photo')->nullable();
             $table->unsignedBigInteger('role_id');
+            $table->tinyInteger('is_approved')->default('1');
             $table->rememberToken();
             $table->timestamps();
         });

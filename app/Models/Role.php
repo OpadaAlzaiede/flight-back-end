@@ -11,10 +11,11 @@ class Role extends Model
 
     protected const ROLES = [
         'PASSENGER' => 1,
-        'DRIVER' => 2
+        'DRIVER' => 2,
+        'ADMIN' => 3
     ];
 
-    public function getRolesArray() {
+    public static function getRolesArray() {
 
         return self::ROLES;
     }

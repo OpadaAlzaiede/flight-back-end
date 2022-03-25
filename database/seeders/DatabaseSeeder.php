@@ -53,6 +53,9 @@ class DatabaseSeeder extends Seeder
         DB::table('roles')->insert([
             'name' => 'DRIVER',
         ]);
+        DB::table('roles')->insert([
+            'name' => 'ADMIN',
+        ]);
 
         for($i = 1; $i <= count(self::Governorates); $i++) {
             DB::table('governorates')->insert([

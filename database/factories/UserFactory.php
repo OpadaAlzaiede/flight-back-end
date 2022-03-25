@@ -24,7 +24,8 @@ class UserFactory extends Factory
             'remember_token' => Str::random(10),
             'phone' => $this->faker->phoneNumber(),
             'id_photo' => $this->faker->url(),
-            'role_id' => rand(1, 2)
+            'role_id' => rand(1, 2),
+            'is_approved' => 1
         ];
     }
 
