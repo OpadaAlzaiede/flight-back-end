@@ -28,7 +28,7 @@ class AuthController extends Controller
     public function register(RegisterRequest $request) {
 
         $user = User::create($request->all());
-        if($user->role_id = Role::getRolesArray()['DRIVER'])
+        if($user->role_id == Role::getRolesArray()['DRIVER'])
             $user->disapprove();
             
         $user->password = Hash::make($user->password);

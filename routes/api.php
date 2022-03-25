@@ -29,6 +29,7 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::group(['middleware' => ['auth:sanctum', 'isApproved']], function () {
 
    Route::get('/profile', [UserController::class, 'profile']);
+   Route::put('/profile/update', [UserController::class, 'updateProfile']);
 
    // User routes
    Route::post('user/changePassword', [UserController::class, 'changePassword']);

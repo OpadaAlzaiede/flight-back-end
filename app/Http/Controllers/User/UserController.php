@@ -49,10 +49,6 @@ class UserController extends Controller
 
         $user->update($request->except('id_photo'));
 
-        if($request->id_photo)
-            Storage::disk('public')->delete($attachment->url);
-            $this->storeAvatar($request->id_photo, $user);
-
-        return new UserResource($user)
+        return new UserResource($user);
     }
 }
