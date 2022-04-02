@@ -12,7 +12,7 @@ class Attachment extends Model
 {
     use HasFactory;
 
-    public const MPRPHS = [
+    public const MORPHS = [
         1 => User::class,
         2 => Trip::class,
         3 => Comment::class

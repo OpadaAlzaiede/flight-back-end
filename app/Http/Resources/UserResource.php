@@ -25,7 +25,7 @@ class UserResource extends JsonResource
             'father_name' => $this->father_name,
             'email' => $this->email,
             'phone' => $this->phone,
-            'photo' => 'storage/'. $this->id_photo,
+            'photo' => 'storage/avatars/'. $this->id_photo,
             'role' => $this->role,
             'trips' => $this->role_id === Role::getRolesArray()['PASSENGER']
                             ? TripResource::collection($this->trips)

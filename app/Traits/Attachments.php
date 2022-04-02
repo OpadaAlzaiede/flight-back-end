@@ -38,10 +38,9 @@ trait Attachments
     public function storeAvatar($file, $user) {
 
         try {
-            $path = Storage::disk('public')->putFileAs(
-                'avatars', $file, time() . ' '. $file->getClientOriginalName()
-            );
-            $user->id_photo = $path;
+            $filename = time() .  '.'. $file->getClientOriginalExtension();
+            $file->storeAs('avatars', $filename, 'public');
+            $user->id_photo = $filename;
             $user->save();
             return true;
         } catch (\Exception $ex) {
